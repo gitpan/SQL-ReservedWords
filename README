@@ -2,7 +2,7 @@ NAME
     SQL::ReservedWords - Reserved SQL words by ANSI/ISO
 
 SYNOPSIS
-       if ( SQL::ReservedWords->is_reserved("USER") ) {
+       if ( SQL::ReservedWords->is_reserved("user") ) {
            die "Don't use reserved words in column names!";
        }
 
@@ -10,7 +10,7 @@ SYNOPSIS
 
        use SQL::ReservedWords 'is_reserved';
 
-       if ( is_reserved("GROUP") ) {
+       if ( is_reserved("group") ) {
            die "Don't use reserved words in column names!";
        }
 

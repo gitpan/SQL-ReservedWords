@@ -5,6 +5,7 @@ WriteMakefile
           'NAME' => 'SQL::ReservedWords',
           'VERSION_FROM' => 'lib/SQL/ReservedWords.pm',
           'PREREQ_PM' => {
+                           'Sub::Exporter' => '0',
                            'Test::More' => '0'
                          },
           'INSTALLDIRS' => 'site',

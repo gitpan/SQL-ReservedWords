@@ -3,21 +3,23 @@ package SQL::ReservedWords;
 use strict;
 use warnings;
 use base 'Exporter';
-use vars '@EXPORT_OK', '$VERSION';
+use vars '$VERSION';
 
-$VERSION = 0.1;
-
-@EXPORT_OK = qw(
-    is_reserved
-    is_reserved_by_sql92
-    is_reserved_by_sql99
-    is_reserved_by_sql2003
-    words
-);
+$VERSION = 0.2;
 
 use constant SQL92   => 0x01;
 use constant SQL99   => 0x02;
 use constant SQL2003 => 0x04;
+
+use Sub::Exporter -setup => {
+    exports => {
+        is_reserved            => undef,
+        is_reserved_by_sql92   => undef,
+        is_reserved_by_sql99   => undef,
+        is_reserved_by_sql2003 => undef,
+        words                  => undef,
+    }
+};
 
 {
     my %WORDS = (
@@ -365,19 +367,19 @@ use constant SQL2003 => 0x04;
     }
 
     sub is_reserved {
-        return $WORDS{ uc pop };
+        return $WORDS{ uc pop } || 0;
     }
 
     sub is_reserved_by_sql92 {
-        return ( &is_reserved || 0 ) & SQL92;
+        return &is_reserved & SQL92;
     }
 
     sub is_reserved_by_sql99 {
-        return ( &is_reserved || 0 ) & SQL99;
+        return &is_reserved & SQL99;
     }
 
     sub is_reserved_by_sql2003 {
-        return ( &is_reserved || 0 ) & SQL2003;
+        return &is_reserved & SQL2003;
     }
 }
 
@@ -391,7 +393,7 @@ SQL::ReservedWords - Reserved SQL words by ANSI/ISO
 
 =head1 SYNOPSIS
 
-   if ( SQL::ReservedWords->is_reserved("USER") ) {
+   if ( SQL::ReservedWords->is_reserved("user") ) {
        die "Don't use reserved words in column names!";
    }
 
@@ -399,7 +401,7 @@ SQL::ReservedWords - Reserved SQL words by ANSI/ISO
 
    use SQL::ReservedWords 'is_reserved';
 
-   if ( is_reserved("GROUP") ) {
+   if ( is_reserved("group") ) {
        die "Don't use reserved words in column names!";
    }
 

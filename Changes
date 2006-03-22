@@ -1,0 +1,8 @@
+Revision history for Perl extension SQL::ReservedWords
+
+0.2 2006-03-22 00:00
+    - Impoved tests
+    - Use Sub::Exporter for exporting, provides more power to user.
+
+0.1 2006-03-22 00:00
+    - First release

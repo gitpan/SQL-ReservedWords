@@ -4,6 +4,9 @@ use Module::Build;
 my $build = Module::Build->new(
     license            => 'perl',
     module_name        => 'SQL::ReservedWords',
+    requires           => {
+        'Sub::Exporter' => 0,
+    },
     build_requires     => {
         'Test::More' => 0,
     },

@@ -1,14 +1,16 @@
 ---
 name: SQL-ReservedWords
-version: 0.1
+version: 0.2
 author:
   - 'Christian Hansen C<ch@ngmedia.com>'
 abstract: Reserved SQL words by ANSI/ISO
 license: perl
+requires:
+  Sub::Exporter: 0
 build_requires:
   Test::More: 0
 provides:
   SQL::ReservedWords:
     file: lib/SQL/ReservedWords.pm
-    version: 0.1
+    version: 0.2
 generated_by: Module::Build version 0.2611
