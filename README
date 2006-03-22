@@ -2,16 +2,16 @@ NAME
     SQL::ReservedWords - Reserved SQL words by ANSI/ISO
 
 SYNOPSIS
-       if ( SQL::ReservedWords->is_reserved("user") ) {
-           die "Don't use reserved words in column names!";
+       if ( SQL::ReservedWords->is_reserved( $word ) ) {
+           die "$word is a reserved SQL word!";
        }
 
        # or
 
        use SQL::ReservedWords 'is_reserved';
 
-       if ( is_reserved("group") ) {
-           die "Don't use reserved words in column names!";
+       if ( is_reserved( $word ) ) {
+           die "$word is a reserved SQL word!";
        }
 
 DESCRIPTION
@@ -20,16 +20,19 @@ DESCRIPTION
 METHODS
     is_reserved( $word )
         Returns a boolean indicating if $word is reserved by either
-        "SQL-92", "SQL-99" or "SQL-2003".
+        "SQL-92", "SQL:1999" or "SQL:2003".
 
     is_reserved_by_sql92( $word )
         Returns a boolean indicating if $word is reserved by "SQL-92".
 
-    is_reserved_by_sql99( $word )
-        Returns a boolean indicating if $word is reserved by "SQL-99".
+    is_reserved_by_sql1999( $word )
+        Returns a boolean indicating if $word is reserved by "SQL:1999".
 
     is_reserved_by_sql2003( $word )
-        Returns a boolean indicating if $word is reserved by "SQL-2003".
+        Returns a boolean indicating if $word is reserved by "SQL:2003".
+
+    reserved_by( $word )
+        Returns a list with SQL standards that reserves $word.
 
     words
         Returns a list with all reserved words.
@@ -39,8 +42,9 @@ EXPORTS
 
     is_reserved
     is_reserved_by_sql92
-    is_reserved_by_sql99
+    is_reserved_by_sql1999
     is_reserved_by_sql2003
+    reserved_by
     words
 
 AUTHOR

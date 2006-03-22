@@ -1,11 +1,15 @@
 Revision history for Perl extension SQL::ReservedWords
 
+0.4 2006-03-22 00:00
+    - Added reserved_by.
+    - Renamed is_reserved_by_sql99 to is_reserved_by_sql1999.
+
 0.3 2006-03-22 00:00
     - Removed Exporter.pm from base.
 
 0.2 2006-03-22 00:00
-    - Impoved tests
+    - Impoved tests.
     - Use Sub::Exporter for exporting, provides more power to user.
 
 0.1 2006-03-22 00:00
-    - First release
+    - First release.

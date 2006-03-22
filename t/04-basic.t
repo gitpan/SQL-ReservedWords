@@ -5,15 +5,16 @@ use warnings;
 
 use Test::More;
 
-plan tests => 37;
+plan tests => 43;
 
 use_ok( 'SQL::ReservedWords' );
 
 my @methods = qw[
     is_reserved
     is_reserved_by_sql92
-    is_reserved_by_sql99
+    is_reserved_by_sql1999
     is_reserved_by_sql2003
+    reserved_by
     words
 ];
 
@@ -27,21 +28,33 @@ ok   my @words = SQL::ReservedWords->words,                     'Got words';
 cmp_ok @words, '==', 337,                                       'Got 337 words';
 ok   SQL::ReservedWords->is_reserved('user'),                   'USER is reserved';
 ok   SQL::ReservedWords->is_reserved_by_sql92('user'),          'USER is reserved by SQL-92';
-ok   SQL::ReservedWords->is_reserved_by_sql99('user'),          'USER is reserved by SQL-99';
-ok   SQL::ReservedWords->is_reserved_by_sql2003('user'),        'USER is reserved by SQL-2003';
+ok   SQL::ReservedWords->is_reserved_by_sql1999('user'),        'USER is reserved by SQL:1999';
+ok   SQL::ReservedWords->is_reserved_by_sql2003('user'),        'USER is reserved by SQL:2003';
 ok   SQL::ReservedWords->is_reserved('tablesample'),            'TABLESAMPLE is reserved';
 ok ! SQL::ReservedWords->is_reserved_by_sql92('tablesample'),   'TABLESAMPLE is not reserved by SQL-92';
-ok ! SQL::ReservedWords->is_reserved_by_sql99('tablesample'),   'TABLESAMPLE is not reserved by SQL-99';
-ok   SQL::ReservedWords->is_reserved_by_sql2003('tablesample'), 'TABLESAMPLE is reserved by SQL-2003';
+ok ! SQL::ReservedWords->is_reserved_by_sql1999('tablesample'), 'TABLESAMPLE is not reserved by SQL:1999';
+ok   SQL::ReservedWords->is_reserved_by_sql2003('tablesample'), 'TABLESAMPLE is reserved by SQL:2003';
 ok   SQL::ReservedWords->is_reserved('binary'),                 'BINARY is reserved';
 ok ! SQL::ReservedWords->is_reserved_by_sql92('binary'),        'BINARY is not reserved by SQL-92';
-ok   SQL::ReservedWords->is_reserved_by_sql99('binary'),        'BINARY is reserved by SQL-99';
-ok   SQL::ReservedWords->is_reserved_by_sql2003('binary'),      'BINARY is reserved by SQL-2003';
+ok   SQL::ReservedWords->is_reserved_by_sql1999('binary'),      'BINARY is reserved by SQL:1999';
+ok   SQL::ReservedWords->is_reserved_by_sql2003('binary'),      'BINARY is reserved by SQL:2003';
 ok ! SQL::ReservedWords->is_reserved('bogus'),                  'BOGUS is not reserved';
 ok ! SQL::ReservedWords->is_reserved_by_sql92('bogus'),         'BOGUS is not reserved by SQL-92';
-ok ! SQL::ReservedWords->is_reserved_by_sql99('bougus'),        'BOGUS is not reserved by SQL-99';
-ok ! SQL::ReservedWords->is_reserved_by_sql2003('bogus'),       'BOGUS is not reserved by SQL-2003';
+ok ! SQL::ReservedWords->is_reserved_by_sql1999('bougus'),      'BOGUS is not reserved by SQL:1999';
+ok ! SQL::ReservedWords->is_reserved_by_sql2003('bogus'),       'BOGUS is not reserved by SQL:2003';
 ok ! SQL::ReservedWords->is_reserved(undef),                    'undef is not reserved';
+
+is_deeply [ SQL::ReservedWords->reserved_by('user')        ],
+          [ 'SQL-92', 'SQL:1999', 'SQL:2003'               ],   'Got right reserved by for USER';
+
+is_deeply [ SQL::ReservedWords->reserved_by('tablesample') ],
+          [ 'SQL:2003'                                     ],   'Got right reserved by for TABLESAMPLE';
+
+is_deeply [ SQL::ReservedWords->reserved_by('binary')      ],
+          [ 'SQL:1999', 'SQL:2003'                         ],   'Got right reserved by for BINARY';
+
+is_deeply [ SQL::ReservedWords->reserved_by('bogus')       ],
+          [                                                ],   'Got right reserved by for BOGUS';
 
 use_ok 'SQL::ReservedWords', @methods;
 
@@ -52,5 +65,5 @@ foreach my $method ( @methods ) {
 ok   @words = words(),                                          'Got words';
 ok   is_reserved('user'),                                       'USER is reserved';
 ok   is_reserved_by_sql92('user'),                              'USER is reserved by SQL-92';
-ok   is_reserved_by_sql99('user'),                              'USER is reserved by SQL-99';
-ok   is_reserved_by_sql2003('user'),                            'USER is reserved by SQL-2003';
+ok   is_reserved_by_sql1999('user'),                            'USER is reserved by SQL:1999';
+ok   is_reserved_by_sql2003('user'),                            'USER is reserved by SQL:2003';
