@@ -1,0 +1,52 @@
+NAME
+    SQL::ReservedWords - Reserved SQL words by ANSI/ISO
+
+SYNOPSIS
+       if ( SQL::ReservedWords->is_reserved("USER") ) {
+           die "Don't use reserved words in column names!";
+       }
+
+       # or
+
+       use SQL::ReservedWords 'is_reserved';
+
+       if ( is_reserved("GROUP") ) {
+           die "Don't use reserved words in column names!";
+       }
+
+DESCRIPTION
+    Determine if words are reserved by ANSI/ISO SQL standard.
+
+METHODS
+    is_reserved( $word )
+        Returns a boolean indicating if $word is reserved by either
+        "SQL-92", "SQL-99" or "SQL-2003".
+
+    is_reserved_by_sql92( $word )
+        Returns a boolean indicating if $word is reserved by "SQL-92".
+
+    is_reserved_by_sql99( $word )
+        Returns a boolean indicating if $word is reserved by "SQL-99".
+
+    is_reserved_by_sql2003( $word )
+        Returns a boolean indicating if $word is reserved by "SQL-2003".
+
+    words
+        Returns a list with all reserved words.
+
+EXPORTS
+    Nothing by default. Following subroutines can be exported:
+
+    is_reserved
+    is_reserved_by_sql92
+    is_reserved_by_sql99
+    is_reserved_by_sql2003
+    words
+
+AUTHOR
+    Christian Hansen "ch@ngmedia.com"
+
+COPYRIGHT
+    This program is free software, you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
