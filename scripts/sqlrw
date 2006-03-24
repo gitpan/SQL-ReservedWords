@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.6;
+$VERSION = 0.7;
 
 use Getopt::Long qw[];
 
@@ -28,7 +28,8 @@ my @check = (
     'Oracle'       => 'SQL::ReservedWords::Oracle',
     'PostgreSQL'   => 'SQL::ReservedWords::PostgreSQL',
     'SQLite'       => 'SQL::ReservedWords::SQLite',
-    'SQL Server'   => 'SQL::ReservedWords::SQLServer'
+    'SQL Server'   => 'SQL::ReservedWords::SQLServer',
+    'Sybase'       => 'SQL::ReservedWords::Sybase'
 );
 
 my @reserved_by = ();

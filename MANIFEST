@@ -8,6 +8,7 @@ lib/SQL/ReservedWords/Oracle.pm
 lib/SQL/ReservedWords/PostgreSQL.pm
 lib/SQL/ReservedWords/SQLite.pm
 lib/SQL/ReservedWords/SQLServer.pm
+lib/SQL/ReservedWords/Sybase.pm
 MANIFEST			This list of files
 scripts/sqlrw
 t/01-use.t
@@ -20,6 +21,7 @@ t/08-oracle.t
 t/09-postgresql.t
 t/10-sqlite.t
 t/11-sqlserver.t
+t/12-sybase.t
 META.yml
 Makefile.PL
 README

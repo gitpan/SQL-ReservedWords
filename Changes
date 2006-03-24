@@ -1,5 +1,8 @@
 Revision history for Perl extension SQL::ReservedWords
 
+0.7 2006-03-24 00:00
+    - Added SQL::ReservedWords::Sybase
+
 0.6 2006-03-24 00:00
     - Added a script to query for reserved words, sqlrw
     - Added support for SQL Server 7 and 2005

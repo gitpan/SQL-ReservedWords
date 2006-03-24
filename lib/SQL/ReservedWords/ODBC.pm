@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.6;
+$VERSION = 0.7;
 
 use constant ODBC30 => 0x01;
 
