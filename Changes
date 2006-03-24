@@ -1,5 +1,9 @@
 Revision history for Perl extension SQL::ReservedWords
 
+0.5 2006-03-24 00:00
+    - Renamed is_reserved_by_sql92 to is_reserved_by_sql1992.
+    - Added DB2, MySQL, ODBC, Oracle, PostgreSQL, SQLite and SQLServer
+
 0.4 2006-03-22 00:00
     - Added reserved_by.
     - Renamed is_reserved_by_sql99 to is_reserved_by_sql1999.
