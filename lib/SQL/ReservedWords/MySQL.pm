@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.5;
+$VERSION = 0.6;
 
 use constant MYSQL32 => 0x01;
 use constant MYSQL40 => 0x02;
@@ -270,18 +270,19 @@ use constant MYSQL51 => 0x10;
     }
 
     sub is_reserved_by_mysql3 {
-        my $flags = &is_reserved;
-        return $flags & MYSQL32;
+        return &is_reserved & MYSQL32;
     }
 
     sub is_reserved_by_mysql4 {
         my $flags = &is_reserved;
-        return $flags & MYSQL40 || $flags & MYSQL41;
+        return    $flags & MYSQL40 
+               || $flags & MYSQL41;
     }
 
     sub is_reserved_by_mysql5 {
         my $flags = &is_reserved;
-        return $flags & MYSQL50 || $flags & MYSQL51;
+        return    $flags & MYSQL50 
+               || $flags & MYSQL51;
     }
 
     sub reserved_by {

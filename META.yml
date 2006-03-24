@@ -1,6 +1,6 @@
 ---
 name: SQL-ReservedWords
-version: 0.5
+version: 0.6
 author:
   - 'Christian Hansen C<chansen@cpan.org>'
 abstract: Reserved SQL words by ANSI/ISO
@@ -12,26 +12,26 @@ build_requires:
 provides:
   SQL::ReservedWords:
     file: lib/SQL/ReservedWords.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::DB2:
     file: lib/SQL/ReservedWords/DB2.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::MySQL:
     file: lib/SQL/ReservedWords/MySQL.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::ODBC:
     file: lib/SQL/ReservedWords/ODBC.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::Oracle:
     file: lib/SQL/ReservedWords/Oracle.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::PostgreSQL:
     file: lib/SQL/ReservedWords/PostgreSQL.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::SQLServer:
     file: lib/SQL/ReservedWords/SQLServer.pm
-    version: 0.5
+    version: 0.6
   SQL::ReservedWords::SQLite:
     file: lib/SQL/ReservedWords/SQLite.pm
-    version: 0.5
+    version: 0.6
 generated_by: Module::Build version 0.2611

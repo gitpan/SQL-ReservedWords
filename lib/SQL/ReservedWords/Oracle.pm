@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.5;
+$VERSION = 0.6;
 
 use constant ORACLE7  => 0x01;
 use constant ORACLE8  => 0x02;
@@ -165,10 +165,10 @@ use constant ORACLE10 => 0x08;
         my $flags       = &is_reserved;
         my @reserved_by = ();
 
-        push @reserved_by, 'Oracle7'   if $flags & ORACLE7;
-        push @reserved_by, 'Oracle8i'  if $flags & ORACLE8;
-        push @reserved_by, 'Oracle9i'  if $flags & ORACLE9;
-        push @reserved_by, 'Oracle10g' if $flags & ORACLE10;
+        push @reserved_by, 'Oracle 7'   if $flags & ORACLE7;
+        push @reserved_by, 'Oracle 8i'  if $flags & ORACLE8;
+        push @reserved_by, 'Oracle 9i'  if $flags & ORACLE9;
+        push @reserved_by, 'Oracle 10g' if $flags & ORACLE10;
 
         return @reserved_by;
     }

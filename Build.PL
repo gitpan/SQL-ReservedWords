@@ -11,7 +11,10 @@ my $build = Module::Build->new(
         'Test::More' => 0,
     },
     create_makefile_pl => 'traditional',
-    create_readme      => 1
+    create_readme      => 1,
+    script_files       => [
+        'scripts/sqlrw'
+    ]
 );
 
 $build->create_build_script;

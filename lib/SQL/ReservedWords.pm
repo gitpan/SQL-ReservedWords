@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.5;
+$VERSION = 0.6;
 
 use constant SQL1992 => 0x01;
 use constant SQL1999 => 0x02;

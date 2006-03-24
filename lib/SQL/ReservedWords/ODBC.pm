@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.5;
+$VERSION = 0.6;
 
 use constant ODBC30 => 0x01;
 
@@ -13,6 +13,8 @@ use constant ODBC30 => 0x01;
 
     my @exports = qw[
         is_reserved
+        is_reserved_by_odbc3
+        reserved_by
         words
     ];
 
@@ -261,7 +263,11 @@ use constant ODBC30 => 0x01;
     sub is_reserved {
         return $WORDS{ uc pop } || 0;
     }
-    
+
+    sub is_reserved_by_odbc3 {
+        return &is_reserved & ODBC30;
+    }
+
     sub reserved_by {
         my $flags       = &is_reserved;
         my @reserved_by = ();
@@ -300,7 +306,15 @@ Determine if words are reserved by ODBC.
 
 =item is_reserved( $word )
 
-Returns a boolean indicating if C<$word> is reserved by C<ODBC 3.0>.
+Returns a boolean indicating if C<$word> is reserved by ODBC 3.0.
+
+=item is_reserved_by_odbc3( $word )
+
+Returns a boolean indicating if C<$word> is reserved by ODBC 3.0.
+
+=item reserved_by( $word )
+
+Returns a list with ODBC versions that reserves C<$word>.
 
 =item words
 
@@ -315,6 +329,10 @@ Nothing by default. Following subroutines can be exported:
 =over 4
 
 =item is_reserved
+
+=item is_reserved_by_odbc3
+
+=item reserved_by
 
 =item words
 

@@ -9,6 +9,9 @@ WriteMakefile
                            'Test::More' => '0'
                          },
           'INSTALLDIRS' => 'site',
+          'EXE_FILES' => [
+                           'scripts/sqlrw'
+                         ],
           'PL_FILES' => {}
         )
 ;

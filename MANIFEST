@@ -9,6 +9,7 @@ lib/SQL/ReservedWords/PostgreSQL.pm
 lib/SQL/ReservedWords/SQLite.pm
 lib/SQL/ReservedWords/SQLServer.pm
 MANIFEST			This list of files
+scripts/sqlrw
 t/01-use.t
 t/02-pod.t
 t/04-sql.t
@@ -18,7 +19,7 @@ t/07-odbc.t
 t/08-oracle.t
 t/09-postgresql.t
 t/10-sqlite.t
-t/10-sqlserver.t
+t/11-sqlserver.t
 META.yml
 Makefile.PL
 README

@@ -4,15 +4,21 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.5;
+$VERSION = 0.6;
 
-use constant SQLSERVER2000 => 0x01;
+use constant SQLSERVER7    => 0x01;
+use constant SQLSERVER2000 => 0x02;
+use constant SQLSERVER2005 => 0x04;
 
 {
     require Sub::Exporter;
 
     my @exports = qw[
         is_reserved
+        is_reserved_by_sqlserver7
+        is_reserved_by_sqlserver2000
+        is_reserved_by_sqlserver2005
+        reserved_by
         words
     ];
 
@@ -21,191 +27,233 @@ use constant SQLSERVER2000 => 0x01;
 
 {
     my %WORDS = (
-        ADD                  => SQLSERVER2000,
-        ALL                  => SQLSERVER2000,
-        ALTER                => SQLSERVER2000,
-        AND                  => SQLSERVER2000,
-        ANY                  => SQLSERVER2000,
-        AS                   => SQLSERVER2000,
-        ASC                  => SQLSERVER2000,
-        AUTHORIZATION        => SQLSERVER2000,
-        BACKUP               => SQLSERVER2000,
-        BEGIN                => SQLSERVER2000,
-        BETWEEN              => SQLSERVER2000,
-        BREAK                => SQLSERVER2000,
-        BROWSE               => SQLSERVER2000,
-        BULK                 => SQLSERVER2000,
-        BY                   => SQLSERVER2000,
-        CASCADE              => SQLSERVER2000,
-        CASE                 => SQLSERVER2000,
-        CHECK                => SQLSERVER2000,
-        CHECKPOINT           => SQLSERVER2000,
-        CLOSE                => SQLSERVER2000,
-        CLUSTERED            => SQLSERVER2000,
-        COALESCE             => SQLSERVER2000,
-        COLLATE              => SQLSERVER2000,
-        COLUMN               => SQLSERVER2000,
-        COMMIT               => SQLSERVER2000,
-        COMPUTE              => SQLSERVER2000,
-        CONSTRAINT           => SQLSERVER2000,
-        CONTAINS             => SQLSERVER2000,
-        CONTAINSTABLE        => SQLSERVER2000,
-        CONTINUE             => SQLSERVER2000,
-        CONVERT              => SQLSERVER2000,
-        CREATE               => SQLSERVER2000,
-        CROSS                => SQLSERVER2000,
-        CURRENT              => SQLSERVER2000,
-        CURRENT_DATE         => SQLSERVER2000,
-        CURRENT_TIME         => SQLSERVER2000,
-        CURRENT_TIMESTAMP    => SQLSERVER2000,
-        CURRENT_USER         => SQLSERVER2000,
-        CURSOR               => SQLSERVER2000,
-        DATABASE             => SQLSERVER2000,
-        DBCC                 => SQLSERVER2000,
-        DEALLOCATE           => SQLSERVER2000,
-        DECLARE              => SQLSERVER2000,
-        DEFAULT              => SQLSERVER2000,
-        DELETE               => SQLSERVER2000,
-        DENY                 => SQLSERVER2000,
-        DESC                 => SQLSERVER2000,
-        DISK                 => SQLSERVER2000,
-        DISTINCT             => SQLSERVER2000,
-        DISTRIBUTED          => SQLSERVER2000,
-        DOUBLE               => SQLSERVER2000,
-        DROP                 => SQLSERVER2000,
-        DUMMY                => SQLSERVER2000,
-        DUMP                 => SQLSERVER2000,
-        ELSE                 => SQLSERVER2000,
-        END                  => SQLSERVER2000,
-        ERRLVL               => SQLSERVER2000,
-        ESCAPE               => SQLSERVER2000,
-        EXCEPT               => SQLSERVER2000,
-        EXEC                 => SQLSERVER2000,
-        EXECUTE              => SQLSERVER2000,
-        EXISTS               => SQLSERVER2000,
-        EXIT                 => SQLSERVER2000,
-        FETCH                => SQLSERVER2000,
-        FILE                 => SQLSERVER2000,
-        FILLFACTOR           => SQLSERVER2000,
-        FOR                  => SQLSERVER2000,
-        FOREIGN              => SQLSERVER2000,
-        FREETEXT             => SQLSERVER2000,
-        FREETEXTTABLE        => SQLSERVER2000,
-        FROM                 => SQLSERVER2000,
-        FULL                 => SQLSERVER2000,
-        FUNCTION             => SQLSERVER2000,
-        GOTO                 => SQLSERVER2000,
-        GRANT                => SQLSERVER2000,
-        GROUP                => SQLSERVER2000,
-        HAVING               => SQLSERVER2000,
-        HOLDLOCK             => SQLSERVER2000,
-        IDENTITY             => SQLSERVER2000,
-        IDENTITYCOL          => SQLSERVER2000,
-        IDENTITY_INSERT      => SQLSERVER2000,
-        IF                   => SQLSERVER2000,
-        IN                   => SQLSERVER2000,
-        INDEX                => SQLSERVER2000,
-        INNER                => SQLSERVER2000,
-        INSERT               => SQLSERVER2000,
-        INTERSECT            => SQLSERVER2000,
-        INTO                 => SQLSERVER2000,
-        IS                   => SQLSERVER2000,
-        JOIN                 => SQLSERVER2000,
-        KEY                  => SQLSERVER2000,
-        KILL                 => SQLSERVER2000,
-        LEFT                 => SQLSERVER2000,
-        LIKE                 => SQLSERVER2000,
-        LINENO               => SQLSERVER2000,
-        LOAD                 => SQLSERVER2000,
-        NATIONAL             => SQLSERVER2000,
-        NOCHECK              => SQLSERVER2000,
-        NONCLUSTERED         => SQLSERVER2000,
-        NOT                  => SQLSERVER2000,
-        NULL                 => SQLSERVER2000,
-        NULLIF               => SQLSERVER2000,
-        OF                   => SQLSERVER2000,
-        OFF                  => SQLSERVER2000,
-        OFFSETS              => SQLSERVER2000,
-        ON                   => SQLSERVER2000,
-        OPEN                 => SQLSERVER2000,
-        OPENDATASOURCE       => SQLSERVER2000,
-        OPENQUERY            => SQLSERVER2000,
-        OPENROWSET           => SQLSERVER2000,
-        OPENXML              => SQLSERVER2000,
-        OPTION               => SQLSERVER2000,
-        OR                   => SQLSERVER2000,
-        ORDER                => SQLSERVER2000,
-        OUTER                => SQLSERVER2000,
-        OVER                 => SQLSERVER2000,
-        PERCENT              => SQLSERVER2000,
-        PLAN                 => SQLSERVER2000,
-        PRECISION            => SQLSERVER2000,
-        PRIMARY              => SQLSERVER2000,
-        PRINT                => SQLSERVER2000,
-        PROC                 => SQLSERVER2000,
-        PROCEDURE            => SQLSERVER2000,
-        PUBLIC               => SQLSERVER2000,
-        RAISERROR            => SQLSERVER2000,
-        READ                 => SQLSERVER2000,
-        READTEXT             => SQLSERVER2000,
-        RECONFIGURE          => SQLSERVER2000,
-        REFERENCES           => SQLSERVER2000,
-        REPLICATION          => SQLSERVER2000,
-        RESTORE              => SQLSERVER2000,
-        RESTRICT             => SQLSERVER2000,
-        RETURN               => SQLSERVER2000,
-        REVOKE               => SQLSERVER2000,
-        RIGHT                => SQLSERVER2000,
-        ROLLBACK             => SQLSERVER2000,
-        ROWCOUNT             => SQLSERVER2000,
-        ROWGUIDCOL           => SQLSERVER2000,
-        RULE                 => SQLSERVER2000,
-        SAVE                 => SQLSERVER2000,
-        SCHEMA               => SQLSERVER2000,
-        SELECT               => SQLSERVER2000,
-        SESSION_USER         => SQLSERVER2000,
-        SET                  => SQLSERVER2000,
-        SETUSER              => SQLSERVER2000,
-        SHUTDOWN             => SQLSERVER2000,
-        SOME                 => SQLSERVER2000,
-        STATISTICS           => SQLSERVER2000,
-        SYSTEM_USER          => SQLSERVER2000,
-        TABLE                => SQLSERVER2000,
-        TEXTSIZE             => SQLSERVER2000,
-        THEN                 => SQLSERVER2000,
-        TO                   => SQLSERVER2000,
-        TOP                  => SQLSERVER2000,
-        TRAN                 => SQLSERVER2000,
-        TRANSACTION          => SQLSERVER2000,
-        TRIGGER              => SQLSERVER2000,
-        TRUNCATE             => SQLSERVER2000,
-        TSEQUAL              => SQLSERVER2000,
-        UNION                => SQLSERVER2000,
-        UNIQUE               => SQLSERVER2000,
-        UPDATE               => SQLSERVER2000,
-        UPDATETEXT           => SQLSERVER2000,
-        USE                  => SQLSERVER2000,
-        USER                 => SQLSERVER2000,
-        VALUES               => SQLSERVER2000,
-        VARYING              => SQLSERVER2000,
-        VIEW                 => SQLSERVER2000,
-        WAITFOR              => SQLSERVER2000,
-        WHEN                 => SQLSERVER2000,
-        WHERE                => SQLSERVER2000,
-        WHILE                => SQLSERVER2000,
-        WITH                 => SQLSERVER2000,
-        WRITETEXT            => SQLSERVER2000,
+        ADD                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ALL                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ALTER                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        AND                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ANY                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        AS                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ASC                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        AUTHORIZATION        => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        AVG                  => SQLSERVER7,
+        BACKUP               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        BEGIN                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        BETWEEN              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        BREAK                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        BROWSE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        BULK                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        BY                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CASCADE              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CASE                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CHECK                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CHECKPOINT           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CLOSE                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CLUSTERED            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        COALESCE             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        COLLATE              =>              SQLSERVER2000 | SQLSERVER2005,
+        COLUMN               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        COMMIT               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        COMMITTED            => SQLSERVER7,
+        COMPUTE              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CONFIRM              => SQLSERVER7,
+        CONSTRAINT           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CONTAINS             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CONTAINSTABLE        => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CONTINUE             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CONTROLROW           => SQLSERVER7,
+        CONVERT              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        COUNT                => SQLSERVER7,
+        CREATE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CROSS                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CURRENT              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CURRENT_DATE         => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CURRENT_TIME         => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CURRENT_TIMESTAMP    => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CURRENT_USER         => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        CURSOR               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DATABASE             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DBCC                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DEALLOCATE           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DECLARE              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DEFAULT              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DELETE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DENY                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DESC                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DISK                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DISTINCT             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DISTRIBUTED          => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DOUBLE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DROP                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DUMMY                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        DUMP                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ELSE                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        END                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ERRLVL               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ERROREXIT            => SQLSERVER7,
+        ESCAPE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        EXCEPT               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        EXEC                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        EXECUTE              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        EXISTS               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        EXIT                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FETCH                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FILE                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FILLFACTOR           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FLOPPY               => SQLSERVER7,
+        FOR                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FOREIGN              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FREETEXT             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FREETEXTTABLE        => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FROM                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FULL                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        FUNCTION             =>              SQLSERVER2000 | SQLSERVER2005,
+        GOTO                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        GRANT                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        GROUP                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        HAVING               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        HOLDLOCK             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        IDENTITY             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        IDENTITYCOL          => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        IDENTITY_INSERT      => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        IF                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        IN                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        INDEX                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        INNER                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        INSERT               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        INTERSECT            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        INTO                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        IS                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ISOLATION            => SQLSERVER7,
+        JOIN                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        KEY                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        KILL                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        LEFT                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        LEVEL                => SQLSERVER7,
+        LIKE                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        LINENO               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        LOAD                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        MAX                  => SQLSERVER7,
+        MIN                  => SQLSERVER7,
+        MIRROREXIT           => SQLSERVER7,
+        NATIONAL             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        NOCHECK              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        NONCLUSTERED         => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        NOT                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        NULL                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        NULLIF               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OF                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OFF                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OFFSETS              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ON                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ONCE                 => SQLSERVER7,
+        ONLY                 => SQLSERVER7,
+        OPEN                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OPENDATASOURCE       => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OPENQUERY            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OPENROWSET           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OPENXML              =>              SQLSERVER2000 | SQLSERVER2005,
+        OPTION               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OR                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ORDER                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OUTER                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        OVER                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PERCENT              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PERM                 => SQLSERVER7,
+        PERMANENT            => SQLSERVER7,
+        PIPE                 => SQLSERVER7,
+        PLAN                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PRECISION            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PREPARE              => SQLSERVER7,
+        PRIMARY              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PRINT                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PRIVILEGES           => SQLSERVER7,
+        PROC                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PROCEDURE            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        PROCESSEXIT          => SQLSERVER7,
+        PUBLIC               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RAISERROR            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        READ                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        READTEXT             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RECONFIGURE          => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        REFERENCES           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        REPEATABLE           => SQLSERVER7,
+        REPLICATION          => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RESTORE              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RESTRICT             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RETURN               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        REVOKE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RIGHT                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ROLLBACK             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ROWCOUNT             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        ROWGUIDCOL           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        RULE                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SAVE                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SCHEMA               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SELECT               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SERIALIZABLE         => SQLSERVER7,
+        SESSION_USER         => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SET                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SETUSER              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SHUTDOWN             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SOME                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        STATISTICS           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        SUM                  => SQLSERVER7,
+        SYSTEM_USER          => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TABLE                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TAPE                 => SQLSERVER7,
+        TEMP                 => SQLSERVER7,
+        TEMPORARY            => SQLSERVER7,
+        TEXTSIZE             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        THEN                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TO                   => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TOP                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TRAN                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TRANSACTION          => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TRIGGER              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TRUNCATE             => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        TSEQUAL              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        UNCOMMITTED          => SQLSERVER7,
+        UNION                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        UNIQUE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        UPDATE               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        UPDATETEXT           => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        USE                  => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        USER                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        VALUES               => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        VARYING              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        VIEW                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        WAITFOR              => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        WHEN                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        WHERE                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        WHILE                => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        WITH                 => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
+        WORK                 => SQLSERVER7,
+        WRITETEXT            => SQLSERVER7 | SQLSERVER2000 | SQLSERVER2005,
     );
 
     sub is_reserved {
         return $WORDS{ uc pop } || 0;
     }
     
+    sub is_reserved_by_sqlserver7 {
+        return &is_reserved & SQLSERVER7;
+    }    
+    
+    sub is_reserved_by_sqlserver2000 {
+        return &is_reserved & SQLSERVER2000;
+    }
+
+    sub is_reserved_by_sqlserver2005 {
+        return &is_reserved & SQLSERVER2005;
+    }
+    
     sub reserved_by {
         my $flags       = &is_reserved;
         my @reserved_by = ();
 
+        push @reserved_by, 'SQL Server 7'    if $flags & SQLSERVER7;
         push @reserved_by, 'SQL Server 2000' if $flags & SQLSERVER2000;
+        push @reserved_by, 'SQL Server 2005' if $flags & SQLSERVER2005;
 
         return @reserved_by;
     }
@@ -239,7 +287,23 @@ Determine if words are reserved by SQL Server.
 
 =item is_reserved( $word )
 
-Returns a boolean indicating if C<$word> is reserved by C<SQL Server 2000>.
+Returns a boolean indicating if C<$word> is reserved by SQL Server 7, 2000 or 2005.
+
+=item is_reserved_by_sqlserver7( $word )
+
+Returns a boolean indicating if C<$word> is reserved by SQL Server 7.
+
+=item is_reserved_by_sqlserver2000( $word )
+
+Returns a boolean indicating if C<$word> is reserved by SQL Server 2000.
+
+=item is_reserved_by_sqlserver2005( $word )
+
+Returns a boolean indicating if C<$word> is reserved by SQL Server 2005.
+
+=item reserved_by( $word )
+
+Returns a list with SQL Server versions that reserves C<$word>.
 
 =item words
 
@@ -255,13 +319,21 @@ Nothing by default. Following subroutines can be exported:
 
 =item is_reserved
 
+=item is_reserved_by_sqlserver7
+
+=item is_reserved_by_sqlserver2000
+
+=item is_reserved_by_sqlserver2005
+
+=item reserved_by
+
 =item words
 
 =back
 
 =head1 SEE ALSO
 
-http://msdn.microsoft.com/library/en-us/dnanchor/html/sqlserver.asp
+http://msdn2.microsoft.com/en-us/library/ms130214.aspx
 
 =head1 AUTHOR
 
