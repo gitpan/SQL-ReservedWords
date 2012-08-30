@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.7;
+$VERSION = '0.8';
 
 use constant ORACLE7  => 0x01;
 use constant ORACLE8  => 0x02;
@@ -142,7 +142,7 @@ use constant ORACLE10 => 0x08;
     );
 
     sub is_reserved {
-        return $WORDS{ uc pop } || 0;
+        return $WORDS{ uc(pop || '') } || 0;
     }
 
     sub is_reserved_by_oracle7 {

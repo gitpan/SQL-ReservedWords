@@ -22,6 +22,7 @@ t/09-postgresql.t
 t/10-sqlite.t
 t/11-sqlserver.t
 t/12-sybase.t
-META.yml
 Makefile.PL
 README
+META.yml
+META.json

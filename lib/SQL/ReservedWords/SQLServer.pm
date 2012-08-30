@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.7;
+$VERSION = '0.8';
 
 use constant SQLSERVER7    => 0x01;
 use constant SQLSERVER2000 => 0x02;
@@ -232,7 +232,7 @@ use constant SQLSERVER2005 => 0x04;
     );
 
     sub is_reserved {
-        return $WORDS{ uc pop } || 0;
+        return $WORDS{ uc(pop || '') } || 0;
     }
     
     sub is_reserved_by_sqlserver7 {

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.7;
+$VERSION = '0.8';
 
 use constant ODBC30 => 0x01;
 
@@ -261,7 +261,7 @@ use constant ODBC30 => 0x01;
     );
 
     sub is_reserved {
-        return $WORDS{ uc pop } || 0;
+        return $WORDS{ uc(pop || '') } || 0;
     }
 
     sub is_reserved_by_odbc3 {
